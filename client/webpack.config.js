@@ -28,12 +28,50 @@ module.exports = () => {
         swSrc: './src/sw.js',
         swDest: 'service-worker.js',
       }),
+      new WebpackPwaManifest({
+        name: 'Just another text editor',
+        short_name: 'JATE',
+        description: 'Text editior application',
+        background_color: '#7eb4e2',
+        theme_color: '#7eb4e2',
+        start_url: './',
+        public_path: './',
+        fingerprints: false,
+        icons: [
+          {
+            src: path.resolve('src/images/logo.png'),
+            sizes: [96, 128, 192, 256, 384, 512], // multiple sizes
+            destination: path.join('images', 'icons'),
+          },
+          {
+            src: path.resolve('src/assets/large-icon.png'),
+            size: '1024x1024', // you can also use the specifications pattern
+          },
+        ],
+      }),
     ],
 
     module: {
-      rules: [{
-        test: /\.
-      }],
+      rules: [
+        {
+          test: /\.css$/i,
+          use: ['style-loader', 'css-loader'],
+        },
+        {
+          test: /\.m?js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env'],
+              plugins: [
+                '@babel/plugin-proposal-object-rest-spread',
+                '@babel/transform-runtime',
+              ],
+            },
+          },
+        },
+      ],
     },
   };
 };
