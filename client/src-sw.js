@@ -27,4 +27,8 @@ warmStrategyCache({
 registerRoute(({ request }) => request.mode === 'navigate', pageCache);
 
 // TODO: Implement asset caching
+self.addEventListener('fetch', (e) =>
+  e.respondWith(caches.match(e.request).then((res) => res || fetch(e.request)))
+);
+
 registerRoute();
