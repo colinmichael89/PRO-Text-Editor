@@ -13,19 +13,19 @@ module.exports = () => {
     entry: {
       main: './src/js/index.js',
       install: './src/js/install.js',
+      // header: './src/js/header.js',
+      // editor: './src/js/editor.js',
     },
     output: {
       filename: '[name].bundle.js',
       path: path.resolve(__dirname, 'dist'),
+      clean: true,
     },
     plugins: [
       new HtmlWebpackPlugin({
         template: './index.html',
         title: 'Webpack Plugin',
-      }),
-      new InjectManifest({
-        swSrc: './src-sw.js',
-        swDest: 'service-worker.js',
+        favicon: './favicon.ico',
       }),
       new WebpackPwaManifest({
         name: 'Just another text editor',
@@ -34,15 +34,20 @@ module.exports = () => {
         background_color: '#7eb4e2',
         theme_color: '#7eb4e2',
         start_url: './',
-        public_path: './',
+        publicPath: './',
         fingerprints: false,
+        inject: true,
         icons: [
           {
             src: path.resolve('src/images/logo.png'),
             sizes: [96, 128, 192, 256, 384, 512], // multiple sizes
-            destination: path.join('images', 'icons'),
+            destination: path.join('assets', 'icons'),
           },
         ],
+      }),
+      new InjectManifest({
+        swSrc: './src-sw.js',
+        swDest: 'src-sw.js',
       }),
     ],
 
